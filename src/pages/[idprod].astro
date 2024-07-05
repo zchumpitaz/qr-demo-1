@@ -1,0 +1,62 @@
+---
+import Product from "../components/Product.astro";
+
+export function getStaticPaths() {
+  return [
+    { params: { idprod: '1' } },
+    { params: { idprod: '2' } },
+    { params: { idprod: '3' } }
+  ];
+}
+
+const { idprod } = Astro.params;
+Astro.cookies.set(`prod${idprod}`, 'ok');
+
+const existe1 = Astro.cookies.has('prod1');
+const existe2 = Astro.cookies.has('prod2');
+const existe3 = Astro.cookies.has('prod3');
+---
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>QR Demo 1</title>
+	</head>
+	<body class="bg-[#E20713]">
+		<main class="w-[96%] my-6 max-w-[430px] mx-auto bg-white">
+			{
+				(idprod === '1') &&
+				<Product name="Field Cua Cua 18gr" image="https://pub-24b06cc69dcb4f5cad2d0a5075267588.r2.dev/1e5dfef8bc0939d4955c6190b_jxasd2.png" text="Wafer cubierto sabor a chocolate con crema sabor a vainilla." id={ idprod } />
+			}
+			{
+				(idprod === '2') &&
+				<Product name="Field  Vainilla 37gr" image="https://pub-24b06cc69dcb4f5cad2d0a5075267588.r2.dev/79f71a8e087462b2880b83b03_i0mlpx.png" text="Galletas dulces sabor vainilla."  id={ idprod } />
+			}
+			{
+				(idprod === '3') &&
+				<Product name="Field Travesuras 50gr" image="https://pub-24b06cc69dcb4f5cad2d0a5075267588.r2.dev/79f71a8e087462b2880b83b0a_bex7sl.png" text="Galletas con cobertura sabor a chocolate y grageas de colores."  id={ idprod } />
+			}
+			{
+
+			}
+			<section class="flex">
+				<img src="https://pub-24b06cc69dcb4f5cad2d0a5075267588.r2.dev/1e5dfef8bc0939d4955c6190b_jxasd2.png" class=`max-w-[33%] ${ !existe1 ? "grayscale" : ''}` />
+				<img src="https://pub-24b06cc69dcb4f5cad2d0a5075267588.r2.dev/79f71a8e087462b2880b83b0a_bex7sl.png" class=`max-w-[33%] ${ !existe3 ? "grayscale" : ''}` />
+				<img src="https://pub-24b06cc69dcb4f5cad2d0a5075267588.r2.dev/79f71a8e087462b2880b83b03_i0mlpx.png" class=`max-w-[33%] ${ !existe2 ? "grayscale" : ''}` />
+			</section>
+			{
+				(existe1 && existe2 && existe3) &&
+				<div class="p-10 flex flex-col gap-2">
+					Registra tus datos
+					<input id="name" name="name" placeholder="Nombre completo" class="border border-gray-700 p-1 rounded-lg" />
+					<input id="email" name="email" type="email" placeholder="Email" class="border border-gray-700 p-1 rounded-lg" />
+					<input id="phone" name="phone" type="tel" placeholder="Celular" class="border border-gray-700 p-1 rounded-lg" />
+					<button class="bg-[#E20713] text-white rounded-xl py-1 px-10 w-fit mx-auto">Enviar</button>
+				</div>
+			}
+		</main>
+		
+	</body>
+</html>
